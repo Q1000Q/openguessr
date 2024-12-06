@@ -1,6 +1,6 @@
 "use client"
 import "./page.css"
-import LoadGame from "./game/loadGame";
+import LoadGame from "./game/(loadGame)";
 import { useState } from "react";
 
 export default function Home() {
