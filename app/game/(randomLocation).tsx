@@ -1,5 +1,9 @@
-export const getRandomCoordsFromLists = async () => {
-    const response = await fetch('https://cloud-hejvg3l1y-hack-club-bot.vercel.app/0defaultlist01.json');
+const locationsLists = [
+    'https://cloud-hejvg3l1y-hack-club-bot.vercel.app/0defaultlist01.json',
+]
+
+const getRandomCoordsFromLists = async () => {
+    const response = await fetch(locationsLists[Math.floor(Math.random() * locationsLists.length)]);
     const data = await response.json();
     const locations = await data.locations;
 
