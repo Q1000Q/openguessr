@@ -7,9 +7,13 @@ interface RoundEndProps {
     setCurrentRound: Dispatch<SetStateAction<number>>;
     setView: Dispatch<SetStateAction<string>>;
     setPoints: Dispatch<SetStateAction<number>>;
+    selectedLocation: {
+        selectedLat: number | null;
+        selectedLng: number | null;
+    };
 }
 
-const RoundEnd = ({currentRound, rounds, points, setCurrentRound, setView, setPoints}: RoundEndProps) => {
+const RoundEnd = ({currentRound, rounds, points, setCurrentRound, setView, setPoints, selectedLocation: {selectedLat, selectedLng}}: RoundEndProps) => {
     useEffect(() => {
         setCurrentRound(currentRound + 1);
     // eslint-disable-next-line react-hooks/exhaustive-deps

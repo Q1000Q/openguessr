@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import { GoogleMap, Marker } from '@react-google-maps/api';
 
 const center = {
@@ -6,14 +6,15 @@ const center = {
   lng: 0
 };
 
-interface Location {
-  lat: number;
-  lng: number;
-}
-
 interface GameMapProps {
-  location: Location;
-  selected: Location;
+  location: {
+    lat: number;
+    lng: number;
+  };
+  selected: {
+    setSelectedLatGame: Dispatch<SetStateAction<number | null>>;
+    setSelectedLngGame: Dispatch<SetStateAction<number | null>>;
+  };
 }
 
 const containerStyle = {
@@ -21,8 +22,13 @@ const containerStyle = {
   height: '100vh'
 };
 
-const GameMap: React.FC<GameMapProps> = ({ location: { lat: locationLat, lng: locationLng }, selected: { lat: selectedLat, lng: selectedLng } }) => {
-    console.log(locationLat, " ", locationLng, " ", selectedLat, " ", selectedLng);
+const GameMap = ({ location: { lat, lng }, selected: { setSelectedLatGame, setSelectedLngGame } }: GameMapProps) => {
+    const [selectedLat, setSelectedLat] = useState<number | null>(null);
+    const [selectedLng, setSelectedLng] = useState<number | null>(null);
+
+    setSelectedLatGame(selectedLat);
+    setSelectedLngGame(selectedLng);
+
     return (
         <GoogleMap
             mapContainerStyle={containerStyle}
@@ -30,9 +36,17 @@ const GameMap: React.FC<GameMapProps> = ({ location: { lat: locationLat, lng: lo
             zoom={3}
             clickableIcons={false}
             options={{ disableDefaultUI: true }}
+            onClick={(e) => {
+                const lat = e.latLng?.lat();
+                const lng = e.latLng?.lng();
+                if (lat && lng) {
+                    setSelectedLat(lat);
+                    setSelectedLng(lng);
+                }
+            }}
         >
-            <Marker position={{ lat: locationLat, lng: locationLng }} />
-            <Marker position={{ lat: selectedLat, lng: selectedLng }} />
+            <Marker position={{ lat: lat, lng: lng }} />
+            {selectedLat && selectedLng ? (<Marker position={{ lat: selectedLat, lng: selectedLng }} />) : ""}
         </GoogleMap>
     )
 }

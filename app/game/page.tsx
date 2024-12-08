@@ -6,7 +6,6 @@ import RoundEnd from './(roundEnd)';
 import GameEnd from './(gameEnd)';
 import GameMap from './(gameMap)';
 import getRandomCoordsFromLists from './(randomLocation)';
-import { LoadScript } from '@react-google-maps/api';
 
 const render = (status: Status) => {
   if (status === Status.LOADING) return <div>Loading...</div>;
@@ -29,8 +28,8 @@ const Game = ({ rounds, time }: GameProps) => {
   const [locationLat, setLocationLat] = useState(0);
   const [locationlng, setLocationLng] = useState(0);
 
-  const [selectedLat, setSelectedLat] = useState(50);
-  const [selectedlng, setSelectedLng] = useState(50);
+  const [selectedLat, setSelectedLat] = useState<number | null>(null);
+  const [selectedLng, setSelectedLng] = useState<number | null>(null);
 
   const [currentTime, setCurrentTime] = useState(time);
 
@@ -69,10 +68,10 @@ const Game = ({ rounds, time }: GameProps) => {
       </Wrapper>
       <div className='absolute z-50 right-2 bottom-2 h-[35vh] w-1/4'>
         <Wrapper apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""} render={render}>
-          <GameMap location={{ lat: locationLat, lng: locationlng }} selected={{ lat: selectedLat, lng: selectedlng }}></GameMap>
+          <GameMap location={{ lat: locationLat, lng: locationlng }} selected={{ setSelectedLatGame: setSelectedLat, setSelectedLngGame: setSelectedLng }}></GameMap>
         </Wrapper>
       </div>
-    </div>) : view == "roundEnd" ? (<RoundEnd currentRound={currentRound} rounds={rounds} points={points} setCurrentRound={setCurrentRound} setView={setView} setPoints={setPoints} />) : (<GameEnd points={points} />)
+    </div>) : view == "roundEnd" ? (<RoundEnd currentRound={currentRound} rounds={rounds} points={points} setCurrentRound={setCurrentRound} setView={setView} setPoints={setPoints} selectedLocation={{selectedLat, selectedLng}} />) : (<GameEnd points={points} />)
   );
 };
 
