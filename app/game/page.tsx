@@ -26,7 +26,7 @@ const Game = ({ rounds, time }: GameProps) => {
   const [points, setPoints] = useState(0);
 
   const [locationLat, setLocationLat] = useState(0);
-  const [locationlng, setLocationLng] = useState(0);
+  const [locationLng, setLocationLng] = useState(0);
 
   const [selectedLat, setSelectedLat] = useState<number | null>(null);
   const [selectedLng, setSelectedLng] = useState<number | null>(null);
@@ -64,14 +64,14 @@ const Game = ({ rounds, time }: GameProps) => {
         <strong>{`${Math.floor(currentTime / 60).toString().padStart(2, '0')}:${(currentTime % 60).toString().padStart(2, '0')}`}</strong>
       </div>
       <Wrapper apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""} render={render}>
-        <StreetViewMap lat={locationLat} lng={locationlng}/>
+        <StreetViewMap lat={locationLat} lng={locationLng}/>
       </Wrapper>
       <div className='absolute z-50 right-2 bottom-2 h-[35vh] w-1/4'>
         <Wrapper apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""} render={render}>
-          <GameMap location={{ lat: locationLat, lng: locationlng }} selected={{ setSelectedLatGame: setSelectedLat, setSelectedLngGame: setSelectedLng }}></GameMap>
+          <GameMap location={{ lat: locationLat, lng: locationLng }} selected={{ setSelectedLatGame: setSelectedLat, setSelectedLngGame: setSelectedLng }}></GameMap>
         </Wrapper>
       </div>
-    </div>) : view == "roundEnd" ? (<RoundEnd currentRound={currentRound} rounds={rounds} points={points} setCurrentRound={setCurrentRound} setView={setView} setPoints={setPoints} selectedLocation={{selectedLat, selectedLng}} />) : (<GameEnd points={points} />)
+    </div>) : view == "roundEnd" ? (<RoundEnd currentRound={currentRound} rounds={rounds} points={points} setCurrentRound={setCurrentRound} setView={setView} setPoints={setPoints} selectedLocation={{selectedLat, selectedLng}} location={{locationLat, locationLng}} />) : (<GameEnd points={points} />)
   );
 };
 
