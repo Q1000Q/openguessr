@@ -28,6 +28,8 @@ const GameMap: React.FC<GameMapProps> = ({ location: { lat: locationLat, lng: lo
             mapContainerStyle={containerStyle}
             center={center}
             zoom={3}
+            clickableIcons={false}
+            options={{ disableDefaultUI: true }}
         >
             <Marker position={{ lat: locationLat, lng: locationLng }} />
             <Marker position={{ lat: selectedLat, lng: selectedLng }} />
