@@ -66,7 +66,7 @@ const Game = ({ rounds, time }: GameProps) => {
       <Wrapper apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""} render={render}>
         <StreetViewMap lat={locationLat} lng={locationLng}/>
       </Wrapper>
-      <div className='absolute z-50 right-2 bottom-2 h-[35vh] w-1/4'>
+      <div className='absolute z-50 right-2 bottom-2 h-[35vh] w-1/4 hover:h-[60vh] hover:w-1/2 transition-all'>
         <Wrapper apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""} render={render}>
           <GameMap location={{ lat: locationLat, lng: locationLng }} selected={{ setSelectedLatGame: setSelectedLat, setSelectedLngGame: setSelectedLng }}></GameMap>
         </Wrapper>
