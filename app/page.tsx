@@ -2,7 +2,6 @@
 import "./page.css"
 import { useState } from "react";
 import Game from "./game/page";
-
 export default function Home() {
 
   const [rounds, setRounds] = useState(5);
