@@ -40,7 +40,7 @@ const Game = ({ rounds, time }: GameProps) => {
       await setLocationLng(lng);
     };
     fetchCoords();
-  }, [])
+  }, [currentRound])
   
   useEffect(() => {
     setCurrentTime(time);
