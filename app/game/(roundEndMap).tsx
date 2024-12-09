@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import { GoogleMap, Marker, Polyline } from '@react-google-maps/api';
 
-const center = {
-  lat: 0,
-  lng: 0
-};
-
 interface RoundEndMapProps {
   location: {
     lat: number;
@@ -18,8 +13,8 @@ interface RoundEndMapProps {
 }
 
 const containerStyle = {
-  width: '80%',
-  height: '70vh'
+  width: '100%',
+  height: '80vh'
 };
 
 const RoundEndMap = ({ location: { lat, lng }, selected: { selectedLat, selectedLng } }: RoundEndMapProps) => {
@@ -30,7 +25,7 @@ const RoundEndMap = ({ location: { lat, lng }, selected: { selectedLat, selected
     return (
         <GoogleMap
             mapContainerStyle={containerStyle}
-            center={center}
+            center={{ lat: latLocal, lng: lngLocal }}
             zoom={3}
             clickableIcons={false}
             options={{ disableDefaultUI: true }}

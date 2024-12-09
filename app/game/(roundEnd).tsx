@@ -47,9 +47,14 @@ const RoundEnd = ({currentRound, rounds, points, setCurrentRound, setView, setPo
 
     return (
         <div>
-            <div>Round: {currentRound - 1}/{rounds} - {points}</div>
-           { currentRound == rounds + 1 ? (<button onClick={() => setView("gameEnd")}>Final Summary</button>) : (<button onClick={() => setView("game")}>Next Round</button>) }
+            <div className='h-[10vh]'>Round: {currentRound - 1}/{rounds} - {points}</div>
            <RoundEndMap location={{lat: locationLat, lng: locationLng}} selected={{selectedLat, selectedLng}}></RoundEndMap>
+           {currentRound == rounds + 1 ? (
+                <button onClick={() => setView("gameEnd")}>Final Summary</button>
+            ) : (
+                <button onClick={() => setView("game")} className='bottom-0 absolute h-[10vh] w-full'><div className='flex justify-center items-center font-bold text-4xl'>Next Round</div></button>
+            )}
+            
         </div>
     )
 }
