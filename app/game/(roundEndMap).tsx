@@ -17,6 +17,14 @@ const containerStyle = {
   height: '80vh'
 };
 
+const greenMarkerIcon = {
+    url: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png', // URL of a green marker icon
+};
+
+const redMarkerIcon = {
+    url: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png', // URL of a green marker icon
+};
+
 const RoundEndMap = ({ location: { lat, lng }, selected: { selectedLat, selectedLng } }: RoundEndMapProps) => {
 
     const [latLocal] = useState(lat);
@@ -30,12 +38,12 @@ const RoundEndMap = ({ location: { lat, lng }, selected: { selectedLat, selected
             clickableIcons={false}
             options={{ disableDefaultUI: true }}
         >
-            <Marker position={{ lat: latLocal, lng: lngLocal }} />
-            {selectedLat && selectedLng ? (<Marker position={{ lat: selectedLat, lng: selectedLng }} />) : ""}
+            <Marker position={{ lat: latLocal, lng: lngLocal }} icon={redMarkerIcon} />
+            {selectedLat && selectedLng ? (<Marker position={{ lat: selectedLat, lng: selectedLng }} icon={greenMarkerIcon} />) : ""}
             {selectedLat && selectedLng ? (<Polyline
                 path={[{lat: latLocal, lng: lngLocal}, {lat: selectedLat, lng: selectedLng}]}
                 options={{
-                    strokeColor: '#FF0000',
+                    strokeColor: '#FF00FF',
                     strokeOpacity: 1.0,
                     strokeWeight: 2,
                 }}

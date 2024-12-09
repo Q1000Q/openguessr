@@ -18,6 +18,10 @@ const containerStyle = {
   height: '100vh'
 };
 
+const greenMarkerIcon = {
+  url: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png', // URL of a green marker icon
+};
+
 const GameMap = ({ selected: { setSelectedLatGame, setSelectedLngGame } }: GameMapProps) => {
     const [selectedLat, setSelectedLat] = useState<number | null>(null);
     const [selectedLng, setSelectedLng] = useState<number | null>(null);
@@ -44,7 +48,7 @@ const GameMap = ({ selected: { setSelectedLatGame, setSelectedLngGame } }: GameM
                 }
             }}
         >
-            {selectedLat && selectedLng ? (<Marker position={{ lat: selectedLat, lng: selectedLng }} />) : ""}
+            {selectedLat && selectedLng ? (<Marker position={{ lat: selectedLat, lng: selectedLng }} icon={greenMarkerIcon} />) : ""}
         </GoogleMap>
     )
 }
