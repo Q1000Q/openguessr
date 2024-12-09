@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import RoundEndMap from './(roundEndMap)';
 
 interface RoundEndProps {
@@ -24,15 +24,19 @@ const RoundEnd = ({currentRound, rounds, points, setCurrentRound, setView, setPo
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const [distance, setDistance] = useState(0);
+    const [calculatedPoints, setCalculatedPoints] = useState(0);
+    
     useEffect(() => {
         let distance = 0;
+        let calculatedPoints = 0;
         const degToKMFactor = 111.139;
         if (selectedLat && selectedLng) {
             distance = Math.sqrt((selectedLat - locationLat)**2 + (selectedLng - locationLng)**2) * degToKMFactor;
         
             console.log("KM: ", distance);
 
-            const calculatedPoints = 5000 * Math.E ** (-distance / 2000);
+            calculatedPoints = 5000 * Math.E ** (-distance / 2000);
 
             console.log("CalculatedPoints: ", calculatedPoints);
 
@@ -41,13 +45,19 @@ const RoundEnd = ({currentRound, rounds, points, setCurrentRound, setView, setPo
             console.log("No guess, no points!")
         }
 
+        setDistance(distance);
+        setCalculatedPoints(calculatedPoints);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     
 
     return (
         <div>
-            <div className='h-[10vh]'>Round: {currentRound - 1}/{rounds} - {points}</div>
+      <div className='absolute right-2 top-2 text-center z-50 bg-black/70 p-4 rounded-2xl'><span className="font-semibold">Total Points</span> <br /> <span className='font-bold text-xl'>{Math.round(points)}</span></div>
+      <div className='h-[10vh] mt-4'>
+                <div className="text-2xl font-bold text-center">Round {currentRound - 1}/{rounds}</div>
+                <div className='text-center mt-4 text-xl'><span>{Math.round(distance)} KM</span><span className='mx-4'>-</span><span>{Math.round(calculatedPoints)} points</span></div>
+            </div>
            <RoundEndMap location={{lat: locationLat, lng: locationLng}} selected={{selectedLat, selectedLng}}></RoundEndMap>
            {currentRound == rounds + 1 ? (
                 <button onClick={() => setView("gameEnd")}>Final Summary</button>
