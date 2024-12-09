@@ -40,7 +40,8 @@ const RoundEnd = ({currentRound, rounds, points, setCurrentRound, setView, setPo
             console.log("No guess, no points!")
         }
 
-    }, [locationLat, locationLng, selectedLat, selectedLng])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
     
 
     return (
