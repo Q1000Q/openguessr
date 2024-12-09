@@ -30,10 +30,15 @@ const RoundEndMap = ({ location: { lat, lng }, selected: { selectedLat, selected
     const [latLocal] = useState(lat);
     const [lngLocal] = useState(lng);
 
+    const center = React.useMemo(() => ({
+        lat: latLocal,
+        lng: lngLocal
+    }), []);
+
     return (
         <GoogleMap
             mapContainerStyle={containerStyle}
-            center={{ lat: latLocal, lng: lngLocal }}
+            center={center}
             zoom={3}
             clickableIcons={false}
             options={{ disableDefaultUI: true }}
