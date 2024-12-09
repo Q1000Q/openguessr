@@ -61,7 +61,7 @@ const RoundEnd = ({currentRound, rounds, points, setCurrentRound, setView, setPo
             </div>
            <RoundEndMap location={{lat: locationLat, lng: locationLng}} selected={{selectedLat, selectedLng}}></RoundEndMap>
            {currentRound == rounds + 1 ? (
-                <button onClick={() => setView("gameEnd")}>Final Summary</button>
+                <button onClick={() => setView("gameEnd")} className='bottom-0 absolute h-[10vh] w-full'><div className='flex justify-center items-center font-bold text-4xl'>Final Summary</div></button>
             ) : (
                 <button onClick={() => setView("game")} className='bottom-0 absolute h-[10vh] w-full'><div className='flex justify-center items-center font-bold text-4xl'>Next Round</div></button>
             )}
