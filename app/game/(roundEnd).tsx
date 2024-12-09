@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction, useEffect } from 'react';
+import RoundEndMap from './(roundEndMap)';
 
 interface RoundEndProps {
     currentRound: number;
@@ -48,6 +49,7 @@ const RoundEnd = ({currentRound, rounds, points, setCurrentRound, setView, setPo
         <div>
             <div>Round: {currentRound - 1}/{rounds} - {points}</div>
            { currentRound == rounds + 1 ? (<button onClick={() => setView("gameEnd")}>Final Summary</button>) : (<button onClick={() => setView("game")}>Next Round</button>) }
+           <RoundEndMap location={{lat: locationLat, lng: locationLng}} selected={{selectedLat, selectedLng}}></RoundEndMap>
         </div>
     )
 }
