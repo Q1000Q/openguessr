@@ -47,12 +47,6 @@ export default function Home() {
             <input onChange={(e) => setRounds(Number(e.target.value))} type="number" name="rounds" id="rounds" value={rounds} className="text-black text-center w-full" />
             <button className="bg-zinc-600 rounded-br hover:bg-zinc-800 transition-colors duration-200" onClick={increseRounds}>+</button>
           </div>
-          <div className="grid grid-cols-[1fr_6fr_1fr] grid-rows-[2fr_3fr]">
-            <h2 className="text-center bg-zinc-600 rounded-t col-span-3">Time Per Round (seconds)</h2>
-            <button className="bg-zinc-600 rounded-bl hover:bg-zinc-800 transition-colors duration-200" onClick={decreseTime}>-</button>
-            <input onChange={(e) => setTime(Number(e.target.value))} type="number" name="time" id="time" value={time} className="text-black text-center w-full" />
-            <button className="bg-zinc-600 rounded-br hover:bg-zinc-800 transition-colors duration-200" onClick={increseTime}>+</button>
-          </div>
           <div className="bg-zinc-600 rounded flex justify-center items-center">
             <div className="scale-125">
               <FormGroup>
@@ -66,6 +60,12 @@ export default function Home() {
                 <FormControlLabel control={<Switch defaultChecked />} label="Zooming / Panning" />
               </FormGroup>
             </div>
+          </div>
+          <div className="grid grid-cols-[1fr_6fr_1fr] grid-rows-[2fr_3fr]">
+            <h2 className="text-center bg-zinc-600 rounded-t col-span-3">Time Per Round (seconds)</h2>
+            <button className="bg-zinc-600 rounded-bl hover:bg-zinc-800 transition-colors duration-200" onClick={decreseTime}>-</button>
+            <input onChange={(e) => setTime(Number(e.target.value))} type="number" name="time" id="time" value={time} className="text-black text-center w-full" />
+            <button className="bg-zinc-600 rounded-br hover:bg-zinc-800 transition-colors duration-200" onClick={increseTime}>+</button>
           </div>
         </div>
       </main>
