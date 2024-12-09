@@ -33,6 +33,7 @@ const RoundEndMap = ({ location: { lat, lng }, selected: { selectedLat, selected
     const center = React.useMemo(() => ({
         lat: latLocal,
         lng: lngLocal
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }), []);
 
     return (
