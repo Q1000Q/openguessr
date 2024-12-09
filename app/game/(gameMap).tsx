@@ -7,10 +7,6 @@ const center = {
 };
 
 interface GameMapProps {
-  location: {
-    lat: number;
-    lng: number;
-  };
   selected: {
     setSelectedLatGame: Dispatch<SetStateAction<number | null>>;
     setSelectedLngGame: Dispatch<SetStateAction<number | null>>;
@@ -22,7 +18,7 @@ const containerStyle = {
   height: '100vh'
 };
 
-const GameMap = ({ location: { lat, lng }, selected: { setSelectedLatGame, setSelectedLngGame } }: GameMapProps) => {
+const GameMap = ({ selected: { setSelectedLatGame, setSelectedLngGame } }: GameMapProps) => {
     const [selectedLat, setSelectedLat] = useState<number | null>(null);
     const [selectedLng, setSelectedLng] = useState<number | null>(null);
 
@@ -48,7 +44,6 @@ const GameMap = ({ location: { lat, lng }, selected: { setSelectedLatGame, setSe
                 }
             }}
         >
-            <Marker position={{ lat: lat, lng: lng }} />
             {selectedLat && selectedLng ? (<Marker position={{ lat: selectedLat, lng: selectedLng }} />) : ""}
         </GoogleMap>
     )
