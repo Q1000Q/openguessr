@@ -26,8 +26,11 @@ const GameMap = ({ location: { lat, lng }, selected: { setSelectedLatGame, setSe
     const [selectedLat, setSelectedLat] = useState<number | null>(null);
     const [selectedLng, setSelectedLng] = useState<number | null>(null);
 
-    setSelectedLatGame(selectedLat);
-    setSelectedLngGame(selectedLng);
+    React.useEffect(() => {
+        setSelectedLatGame(selectedLat);
+        setSelectedLngGame(selectedLng);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedLat, selectedLng]);
 
     return (
         <GoogleMap
