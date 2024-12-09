@@ -28,14 +28,17 @@ const RoundEnd = ({currentRound, rounds, points, setCurrentRound, setView, setPo
         const degToKMFactor = 111.139;
         if (selectedLat && selectedLng) {
             distance = Math.sqrt((selectedLat - locationLat)**2 + (selectedLng - locationLng)**2) * degToKMFactor;
+        
+            console.log("KM: ", distance);
+
+            const calculatedPoints = 5000 * Math.E ** (-distance / 2000);
+
+            console.log("CalculatedPoints: ", calculatedPoints);
+
+            setPoints(points + calculatedPoints);
+        } else {
+            console.log("No guess, no points!")
         }
-        console.log("KM: ", distance);
-
-        const calculatedPoints = 5000 * Math.E ** (-distance / 2000);
-
-        console.log("CalculatedPoints: ", calculatedPoints);
-
-        setPoints(points + calculatedPoints);
 
     }, [locationLat, locationLng, selectedLat, selectedLng])
     
