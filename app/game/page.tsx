@@ -72,13 +72,14 @@ const Game = ({ rounds, time, moving, zoomPan }: GameProps) => {
       <div className='absolute top-2 z-50 left-1/2 transform -translate-x-1/2 text-3xl bg-black/70 py-4 px-16 rounded-xl'>
         <strong>{`${Math.floor(currentTime / 60).toString().padStart(2, '0')}:${(currentTime % 60).toString().padStart(2, '0')}`}</strong>
       </div>
-      <Wrapper apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""} render={render}>
-        <StreetViewMap lat={locationLat} lng={locationLng} moving={moving} zoomPan={zoomPan} />
-      </Wrapper>
+        <Wrapper apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""} render={render}>
+          <StreetViewMap lat={locationLat} lng={locationLng} moving={moving} zoomPan={zoomPan} />
+        </Wrapper>
       <div className='absolute z-50 right-0 bottom-0 h-[35vh] w-1/4 hover:h-[60vh] hover:w-1/2 transition-all'>
         <Wrapper apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""} render={render}>
           <GameMap selected={{ setSelectedLatGame: setSelectedLat, setSelectedLngGame: setSelectedLng }}></GameMap>
         </Wrapper>
+        <button onClick={() => setView("roundEnd")} className='bottom-0 absolute right-0 z-[60] w-full h-[5vh] bg-black'>Guess</button>
       </div>
     </div>) : view == "roundEnd" ? (<RoundEnd currentRound={currentRound} rounds={rounds} points={points} setCurrentRound={setCurrentRound} setView={setView} setPoints={setPoints} selectedLocation={{selectedLat, selectedLng}} location={{locationLat, locationLng}} />) : (<GameEnd points={points} />)
   );
