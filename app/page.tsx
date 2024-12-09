@@ -39,6 +39,9 @@ export default function Home() {
   const [moving, setMoving] = useState(true);
 
   const handleMoving = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.checked === true) {
+      setZoomPan(true);
+    }
     setMoving(event.target.checked);
   };
 
@@ -69,7 +72,10 @@ export default function Home() {
           <div className="bg-zinc-600 rounded flex justify-center items-center">
             <div className="scale-125">
               <FormGroup>
-                <FormControlLabel control={<Switch defaultChecked onChange={handleZoomPan} />} label="Zooming / Panning" />
+                <FormControlLabel 
+                  control={<Switch checked={zoomPan} onChange={handleZoomPan} disabled={moving} />} 
+                  label="Zooming / Panning" 
+                />
               </FormGroup>
             </div>
           </div>
