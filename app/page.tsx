@@ -2,6 +2,10 @@
 import "./page.css"
 import { useState } from "react";
 import Game from "./game/page";
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
+
 export default function Home() {
 
   const [rounds, setRounds] = useState(5);
@@ -48,6 +52,20 @@ export default function Home() {
             <button className="bg-zinc-600 rounded-bl hover:bg-zinc-800 transition-colors duration-200" onClick={decreseTime}>-</button>
             <input onChange={(e) => setTime(Number(e.target.value))} type="number" name="time" id="time" value={time} className="text-black text-center w-full" />
             <button className="bg-zinc-600 rounded-br hover:bg-zinc-800 transition-colors duration-200" onClick={increseTime}>+</button>
+          </div>
+          <div className="bg-zinc-600 rounded flex justify-center items-center">
+            <div className="scale-125">
+              <FormGroup>
+                <FormControlLabel control={<Switch defaultChecked />} label="Moving" />
+              </FormGroup>
+            </div>
+          </div>
+          <div className="bg-zinc-600 rounded flex justify-center items-center">
+            <div className="scale-125">
+              <FormGroup>
+                <FormControlLabel control={<Switch defaultChecked />} label="Zooming / Panning" />
+              </FormGroup>
+            </div>
           </div>
         </div>
       </main>
