@@ -66,8 +66,27 @@ const Game = ({ rounds, time, moving, zoomPan }: GameProps) => {
     };
   }, []);
 
+  const [isMapSelected, setIsMapSelected] = useState(false);
+
+  useEffect(() => {
+    const handleKeyUp = (event: { key: string; keyCode: number; }) => {
+      if (event.key === ' ' || event.keyCode === 32) {
+        if (isMapSelected) {
+          setView("roundEnd");
+        }
+      }
+    };
+
+    window.addEventListener('keyup', handleKeyUp);
+
+    // Cleanup event listeners on component unmount
+    return () => {
+      window.removeEventListener('keyup', handleKeyUp);
+    };
+  }, [isMapSelected]);
+
   return (
-    view == "game" ? (<div className='h-[100vh] w-full'>
+    view == "game" ? (<div onClick={() => { setIsMapSelected(false); }} className='h-[100vh] w-full'>
       <button onClick={() => location.reload()} className='absolute z-50 top-4 left-4 bg-black/70 p-4 rounded-full'><svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg></button>
       <div className='absolute right-2 top-2 text-center z-50 bg-black/70 p-4 rounded-2xl'><span className="font-semibold">Total Points</span> <br /> <span className='font-bold text-xl'>{Math.round(points)}</span></div>
       <div className='absolute top-2 z-50 left-1/2 transform -translate-x-1/2 text-3xl bg-black/70 py-4 px-16 rounded-xl'>
@@ -76,7 +95,7 @@ const Game = ({ rounds, time, moving, zoomPan }: GameProps) => {
         <Wrapper apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""} render={render}>
           <StreetViewMap lat={locationLat} lng={locationLng} moving={moving} zoomPan={zoomPan} />
         </Wrapper>
-      <div className='absolute z-50 right-0 bottom-0 h-[35vh] w-1/4 hover:h-[60vh] hover:w-1/2 transition-all'>
+      <div onClick={(e) => { e.stopPropagation(); setIsMapSelected(true);}} className='map-container absolute z-50 right-0 bottom-0 h-[35vh] w-1/4 hover:h-[60vh] hover:w-1/2 transition-all'>
         <Wrapper apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""} render={render}>
           <GameMap selected={{ setSelectedLatGame: setSelectedLat, setSelectedLngGame: setSelectedLng }}></GameMap>
         </Wrapper>
