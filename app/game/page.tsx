@@ -16,9 +16,11 @@ const render = (status: Status) => {
 interface GameProps {
   rounds: number;
   time: number;
+  moving: boolean;
+  zoomPan: boolean;
 }
 
-const Game = ({ rounds, time }: GameProps) => {
+const Game = ({ rounds, time, moving, zoomPan }: GameProps) => {
 
   const [view, setView] = useState("game");
 
@@ -57,6 +59,13 @@ const Game = ({ rounds, time }: GameProps) => {
     return () => clearInterval(intervalId);
   }, [currentTime, currentRound, rounds, time]);
 
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, []);
+
   return (
     view == "game" ? (<div className='h-[100vh] w-full'>
       <button onClick={() => location.reload()} className='absolute z-50 top-4 left-4 bg-black/70 p-4 rounded-full'><svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg></button>
@@ -64,9 +73,9 @@ const Game = ({ rounds, time }: GameProps) => {
         <strong>{`${Math.floor(currentTime / 60).toString().padStart(2, '0')}:${(currentTime % 60).toString().padStart(2, '0')}`}</strong>
       </div>
       <Wrapper apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""} render={render}>
-        <StreetViewMap lat={locationLat} lng={locationLng}/>
+        <StreetViewMap lat={locationLat} lng={locationLng} moving={moving} zoomPan={zoomPan} />
       </Wrapper>
-      <div className='absolute z-50 right-2 bottom-2 h-[35vh] w-1/4 hover:h-[60vh] hover:w-1/2 transition-all'>
+      <div className='absolute z-50 right-0 bottom-0 h-[35vh] w-1/4 hover:h-[60vh] hover:w-1/2 transition-all'>
         <Wrapper apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""} render={render}>
           <GameMap location={{ lat: locationLat, lng: locationLng }} selected={{ setSelectedLatGame: setSelectedLat, setSelectedLngGame: setSelectedLng }}></GameMap>
         </Wrapper>

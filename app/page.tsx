@@ -36,6 +36,18 @@ export default function Home() {
     }
   }
 
+  const [moving, setMoving] = useState(true);
+
+  const handleMoving = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setMoving(event.target.checked);
+  };
+
+  const [zoomPan, setZoomPan] = useState(true);
+
+  const handleZoomPan = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setZoomPan(event.target.checked);
+  };
+
   return (view == "home" ? 
     (<div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
@@ -50,14 +62,14 @@ export default function Home() {
           <div className="bg-zinc-600 rounded flex justify-center items-center">
             <div className="scale-125">
               <FormGroup>
-                <FormControlLabel control={<Switch defaultChecked />} label="Moving" />
+                <FormControlLabel control={<Switch defaultChecked onChange={handleMoving} />} label="Moving" />
               </FormGroup>
             </div>
           </div>
           <div className="bg-zinc-600 rounded flex justify-center items-center">
             <div className="scale-125">
               <FormGroup>
-                <FormControlLabel control={<Switch defaultChecked />} label="Zooming / Panning" />
+                <FormControlLabel control={<Switch defaultChecked onChange={handleZoomPan} />} label="Zooming / Panning" />
               </FormGroup>
             </div>
           </div>
@@ -69,6 +81,6 @@ export default function Home() {
           </div>
         </div>
       </main>
-    </div>) : view == "game" ? <Game rounds={rounds} time={time}></Game> : ""
+    </div>) : view == "game" ? <Game rounds={rounds} time={time} moving={moving} zoomPan={zoomPan}></Game> : ""
   );
 }
