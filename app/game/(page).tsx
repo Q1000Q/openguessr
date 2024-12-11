@@ -20,29 +20,28 @@ interface GameProps {
   zoomPan: boolean;
 }
 
-const Game = ({ rounds, time, moving, zoomPan }: GameProps) => {
+const Game: React.FC<GameProps> = ({rounds, time, moving, zoomPan}) => {
+    const [view, setView] = useState("game");
 
-  const [view, setView] = useState("game");
+    const [currentRound, setCurrentRound] = useState(1);
+    const [points, setPoints] = useState(0);
 
-  const [currentRound, setCurrentRound] = useState(1);
-  const [points, setPoints] = useState(0);
+    const [locationLat, setLocationLat] = useState(0);
+    const [locationLng, setLocationLng] = useState(0);
 
-  const [locationLat, setLocationLat] = useState(0);
-  const [locationLng, setLocationLng] = useState(0);
+    const [selectedLat, setSelectedLat] = useState<number | null>(null);
+    const [selectedLng, setSelectedLng] = useState<number | null>(null);
 
-  const [selectedLat, setSelectedLat] = useState<number | null>(null);
-  const [selectedLng, setSelectedLng] = useState<number | null>(null);
+    const [currentTime, setCurrentTime] = useState(time);
 
-  const [currentTime, setCurrentTime] = useState(time);
-
-  useEffect(() => {
-    const fetchCoords = async () => {
-      const { props: { lat, lng } } = await getRandomCoordsFromLists();
-      await setLocationLat(lat);
-      await setLocationLng(lng);
-    };
-    fetchCoords();
-  }, [currentRound])
+    useEffect(() => {
+        const fetchCoords = async () => {
+            const { props: { lat, lng } } = await getRandomCoordsFromLists();
+            await setLocationLat(lat);
+            await setLocationLng(lng);
+        };
+        fetchCoords();
+    }, [currentRound])
   
   useEffect(() => {
     setCurrentTime(time);
