@@ -25,7 +25,7 @@ const StreetViewMap = ({ lat, lng, moving, zoomPan }: StreetViewProps) => {
             position: { lat, lng },
             pov: { heading: Math.random() * 360, pitch: 0 },
             zoom: 0,
-            disableDefaultUI: false,
+            disableDefaultUI: !moving,
             fullscreenControl: false,
             enableCloseButton: false,
             addressControl: false,
