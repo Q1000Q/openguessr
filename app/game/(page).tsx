@@ -100,7 +100,7 @@ const Game: React.FC<GameProps> = ({rounds, time, moving, zoomPan}) => {
         </Wrapper>
         <button onClick={() => setView("roundEnd")} className='bottom-0 absolute right-0 z-[60] w-full h-[5vh] bg-black'>Guess</button>
       </div>
-    </div>) : view == "roundEnd" ? (<RoundEnd currentRound={currentRound} rounds={rounds} points={points} setCurrentRound={setCurrentRound} setView={setView} setPoints={setPoints} selectedLocation={{selectedLat, selectedLng}} location={{locationLat, locationLng}} />) : (<GameEnd points={points} />)
+    </div>) : view == "roundEnd" ? (<RoundEnd currentRound={currentRound} rounds={rounds} points={points} setCurrentRound={setCurrentRound} setView={setView} setPoints={setPoints} selectedLocation={{selectedLat, selectedLng}} location={{locationLat, locationLng}} />) : (<GameEnd points={points} rounds={rounds} />)
   );
 };
 
