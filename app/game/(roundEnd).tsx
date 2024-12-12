@@ -64,11 +64,11 @@ const RoundEnd = ({currentRound, rounds, points, setCurrentRound, setView, setPo
            </div>
            {currentRound == rounds + 1 ? (
                 <button onClick={() => setView("gameEnd")} className='bottom-0 absolute h-[8.5vh] w-full bg-gradient-to-t to-gray-900 from-black'>
-                    <div className='flex justify-center items-center font-bold text-4xl'>Final Summary</div>
+                    <div className='flex justify-center items-center font-bold text-4xl transition-colors duration-200 hover:text-zinc-400'>Final Summary</div>
                 </button>
             ) : (
                 <button onClick={() => setView("game")} className='bottom-0 absolute h-[8.5vh] w-full bg-gradient-to-t to-gray-900 from-black'>
-                    <div className='flex justify-center items-center font-bold text-4xl'>Next Round</div>
+                    <div className='flex justify-center items-center font-bold text-4xl transition-colors duration-200 hover:text-zinc-400'>Next Round</div>
                 </button>
             )}
             
