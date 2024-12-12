@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# OpenGuessr
 
-## Getting Started
+## About
+This is a free and open-source version of the popular game GeoGuessr for self-hosting. It has all the major features that GeoGuessr has.
 
-First, run the development server:
+## Demo Video
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Requirements
+- Server to host it on (standalone or Docker)
+- Google Maps API Key (Google provides free $200 credit per month)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Installation / Configuration
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Docker
+1. Install Docker if you don't have it already (Docker Desktop for Windows or Docker Engine for Linux).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. Clone the repository: `git clone https://github.com/q1000q/openguessr`.
 
-## Learn More
+3. Go into the project directory: `cd openguessr`.
 
-To learn more about Next.js, take a look at the following resources:
+4. Change the name of the `.env.example` file to `.env` and edit the file to contain your API Key.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+5. Build the Docker image: `docker build -t openguessr .`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+6. Run the Docker container: `docker run -d --name openguessr -p 3000:3000 openguessr`.
 
-## Deploy on Vercel
+Your instance should be running at port 3000 by default.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Standalone
+1. Install Node.js if you don't have it already from [Node.js Downloads](https://nodejs.org/en/download/package-manager).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2. Clone the repository: `git clone https://github.com/q1000q/openguessr`.
+
+3. Go into the project directory: `cd openguessr`.
+
+4. Install all needed packages: `npm install --legacy-peer-deps`.
+
+5. Change the name of the `.env.example` file to `.env` and edit the file to contain your API Key.
+
+6. Build the app: `npm run build`.
+
+7. Run the app: `npm start`.
+
+Your instance should be running at port 3000 by default.
+
