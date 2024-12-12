@@ -9,7 +9,7 @@ const GameEnd = ({points}: GameEndProps) => {
             <div className="flex w-full h-[100ch] justify-center items-center flex-col">
                 <h1 className="font-bold text-6xl">Game End!</h1>
                 <h2 className="font-bold text-3xl">Total Points: {Math.round(points)}</h2>
-                <button onClick={() => location.reload()} className="mt-10 bg-zinc-600 py-4 px-8 rounded-lg text-lg font-semibold">Go back to main menu</button>
+                <button onClick={() => location.reload()} className="mt-10 bg-zinc-600 py-4 px-8 rounded-lg text-lg font-semibold hover:bg-zinc-800 transition-colors duration-200">Go back to main menu</button>
             </div>
         </div>
     )
