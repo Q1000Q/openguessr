@@ -59,11 +59,17 @@ const RoundEnd = ({currentRound, rounds, points, setCurrentRound, setView, setPo
                 <div className="text-2xl font-bold text-center">Round {currentRound - 1}/{rounds}</div>
                 <div className='text-center mt-4 text-xl'><span>{Math.round(distance)} KM</span><span className='mx-4'>-</span><span>{Math.round(calculatedPoints)} points</span></div>
             </div>
-           <RoundEndMap location={{lat: locationLat, lng: locationLng}} selected={{selectedLat, selectedLng}}></RoundEndMap>
+           <div className="h-[80vh]">
+               <RoundEndMap location={{lat: locationLat, lng: locationLng}} selected={{selectedLat, selectedLng}}></RoundEndMap>
+           </div>
            {currentRound == rounds + 1 ? (
-                <button onClick={() => setView("gameEnd")} className='bottom-0 absolute h-[10vh] w-full'><div className='flex justify-center items-center font-bold text-4xl'>Final Summary</div></button>
+                <button onClick={() => setView("gameEnd")} className='bottom-0 absolute h-[8.5vh] w-full'>
+                    <div className='flex justify-center items-center font-bold text-4xl'>Final Summary</div>
+                </button>
             ) : (
-                <button onClick={() => setView("game")} className='bottom-0 absolute h-[10vh] w-full'><div className='flex justify-center items-center font-bold text-4xl'>Next Round</div></button>
+                <button onClick={() => setView("game")} className='bottom-0 absolute h-[8.5vh] w-full'>
+                    <div className='flex justify-center items-center font-bold text-4xl'>Next Round</div>
+                </button>
             )}
             
         </div>
