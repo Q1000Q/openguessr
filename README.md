@@ -4,6 +4,7 @@
 This is a free and open-source version of the popular game GeoGuessr for self-hosting. It has all the major features that GeoGuessr has.
 
 ## Demo Video
+[![](https://markdown-videos-api.jorgenkh.no/youtube/pg1zqGahacE)](https://youtu.be/pg1zqGahacE)
 
 ## Requirements
 - Server to host it on (standalone or Docker)
