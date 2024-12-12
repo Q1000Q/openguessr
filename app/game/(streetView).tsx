@@ -10,6 +10,8 @@ interface StreetViewProps {
 
 const StreetViewMap = ({ lat, lng, moving, zoomPan }: StreetViewProps) => {
   const mapRef = useRef(null);
+  const panoramaRef = useRef<google.maps.StreetViewPanorama | null>(null);
+
   useEffect(() => {
     const initializeMap = async () => {
       if (mapRef.current) {
@@ -33,10 +35,27 @@ const StreetViewMap = ({ lat, lng, moving, zoomPan }: StreetViewProps) => {
           }
         );
         map.setStreetView(panorama);
+        panoramaRef.current = panorama;
       }
     };
     initializeMap();
   }, [lat, lng, moving, zoomPan]);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'R' || event.key === 'r') {
+        if (panoramaRef.current) {
+          panoramaRef.current.setPosition({ lat, lng });
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [lat, lng]);
+
   return <div ref={mapRef} style={{ width: '100%', height: '100vh', pointerEvents: zoomPan ? 'auto' : 'none' }} />;
 };
 
