@@ -1,5 +1,17 @@
 const BackButton = () => {
     const backButtonHander = () => {
+        localStorage.removeItem("currentRound");
+        localStorage.removeItem("currentTime");
+        localStorage.removeItem("locationLat");
+        localStorage.removeItem("locationLng");
+        localStorage.removeItem("moving");
+        localStorage.removeItem("points");
+        localStorage.removeItem("rounds");
+        localStorage.removeItem("time");
+        localStorage.removeItem("view");
+        localStorage.removeItem("zoomPan");
+
+
         localStorage.setItem("mainView", "home");
         location.reload();
     }

@@ -6,7 +6,6 @@ interface RoundEndProps {
     currentRound: number;
     rounds: number;
     points: number;
-    setCurrentRound: Dispatch<SetStateAction<number>>;
     setView: Dispatch<SetStateAction<string>>;
     setPoints: Dispatch<SetStateAction<number>>;
     selectedLocation: {
@@ -19,11 +18,7 @@ interface RoundEndProps {
     };
 }
 
-const RoundEnd = ({currentRound, rounds, points, setCurrentRound, setView, setPoints, selectedLocation: {selectedLat, selectedLng}, location: {locationLat, locationLng}}: RoundEndProps) => {
-    useEffect(() => {
-        setCurrentRound(currentRound + 1);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+const RoundEnd = ({currentRound, rounds, points, setView, setPoints, selectedLocation: {selectedLat, selectedLng}, location: {locationLat, locationLng}}: RoundEndProps) => {
 
     const [distance, setDistance] = useState(0);
     const [calculatedPoints, setCalculatedPoints] = useState(0);
@@ -50,6 +45,18 @@ const RoundEnd = ({currentRound, rounds, points, setCurrentRound, setView, setPo
         setCalculatedPoints(calculatedPoints);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    const handleNextRound = () => {
+        const newCurrentRound = (currentRound + 1).toString()
+        localStorage.setItem("currentRound", newCurrentRound.toString());
+
+        localStorage.removeItem("locationLat");
+        localStorage.removeItem("locationLng");
+        localStorage.removeItem("currentTime");
+        
+        localStorage.setItem("view", "game");
+        location.reload();
+    }
     
 
     return (
@@ -68,7 +75,7 @@ const RoundEnd = ({currentRound, rounds, points, setCurrentRound, setView, setPo
                     <div className='flex justify-center items-center font-bold text-4xl transition-colors duration-200 hover:text-zinc-400'>Final Summary</div>
                 </button>
             ) : (
-                <button onClick={() => setView("game")} className='bottom-0 absolute h-[8.5vh] w-full bg-gradient-to-t to-gray-900 from-black'>
+                <button onClick={handleNextRound} className='bottom-0 absolute h-[8.5vh] w-full bg-gradient-to-t to-gray-900 from-black'>
                     <div className='flex justify-center items-center font-bold text-4xl transition-colors duration-200 hover:text-zinc-400'>Next Round</div>
                 </button>
             )}

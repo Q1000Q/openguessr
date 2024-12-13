@@ -9,6 +9,7 @@ interface GameEndProps {
 const GameEnd = ({points, rounds}: GameEndProps) => {
     useEffect(() => {
         const timer = setTimeout(() => {
+            localStorage.removeItem("gameData");
             localStorage.setItem("mainView", "home");
             location.reload();
         }, 30000);
@@ -17,6 +18,18 @@ const GameEnd = ({points, rounds}: GameEndProps) => {
     }, []);
 
     const handleMainMenuButton = () => {
+        localStorage.removeItem("currentRound");
+        localStorage.removeItem("currentTime");
+        localStorage.removeItem("locationLat");
+        localStorage.removeItem("locationLng");
+        localStorage.removeItem("moving");
+        localStorage.removeItem("points");
+        localStorage.removeItem("rounds");
+        localStorage.removeItem("time");
+        localStorage.removeItem("view");
+        localStorage.removeItem("zoomPan");
+
+
         localStorage.setItem("mainView", "home");
         location.reload();
     }
