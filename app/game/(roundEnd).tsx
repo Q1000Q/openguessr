@@ -55,7 +55,7 @@ const RoundEnd = ({currentRound, rounds, points, setView, setPoints, selectedLoc
         localStorage.removeItem("currentTime");
         
         localStorage.setItem("view", "game");
-        location.reload();
+        setView("game");
     }
     
 
