@@ -17,47 +17,54 @@ export default function Home() {
   }, [])
   
 
-  const [rounds, setRounds] = useState(5);
-  const [time, setTime] = useState(180);
+  const [rounds, setRounds] = useState(Number(localStorage.getItem("rounds") ?? "5") ?? 5);
+  const [time, setTime] = useState(Number(localStorage.getItem("time") ?? "180") ?? 180);
   const [view, setView] = useState("home");
 
   const decreseRounds = async () => {
     if (rounds > 1) {
       setRounds(rounds - 1);
+      localStorage.setItem("rounds", String(rounds - 1))
     }
   }
   
   const increseRounds = async () => {
     if (rounds < 100) {
       setRounds(rounds + 1);
+      localStorage.setItem("rounds", String(rounds + 1))
     }
   }
   
   const decreseTime = async () => {
     if (time > 30) {
       setTime(time - (time%30 == 0 ? 30 : time%30));
+      localStorage.setItem("time", String(time - (time%30 == 0 ? 30 : time%30)))
     }
   }
   
   const increseTime = async () => {
     if (time < 3000) {
       setTime(time + 30 - time%30);
+      localStorage.setItem("time", String(time + 30 - time%30))
     }
   }
 
-  const [moving, setMoving] = useState(true);
+  const [moving, setMoving] = useState(localStorage.getItem("moving") !== null ? localStorage.getItem("moving") === "true" : true);
 
   const handleMoving = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked === true) {
-      setZoomPan(true);
+        localStorage.setItem("zoomPan", "true");
+        setZoomPan(true);
     }
     setMoving(event.target.checked);
+    localStorage.setItem("moving", String(event.target.checked));
   };
 
-  const [zoomPan, setZoomPan] = useState(true);
+  const [zoomPan, setZoomPan] = useState(localStorage.getItem("zoomPan") !== null ? localStorage.getItem("zoomPan") === "true" : true);
 
   const handleZoomPan = (event: React.ChangeEvent<HTMLInputElement>) => {
     setZoomPan(event.target.checked);
+    localStorage.setItem("zoomPan", String(event.target.checked));
   };
 
   const handlePlayGame = () => {
@@ -79,7 +86,7 @@ export default function Home() {
           <div className="bg-zinc-600 rounded flex justify-center items-center">
             <div className="scale-125">
               <FormGroup>
-                <FormControlLabel control={<Switch defaultChecked onChange={handleMoving} />} label="Moving" />
+                <FormControlLabel control={<Switch checked={moving} onChange={handleMoving} />} label="Moving" />
               </FormGroup>
             </div>
           </div>
