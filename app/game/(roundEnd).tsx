@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import RoundEndMap from './(roundEndMap)';
+import BackButton from './(backButton)';
 
 interface RoundEndProps {
     currentRound: number;
@@ -53,7 +54,7 @@ const RoundEnd = ({currentRound, rounds, points, setCurrentRound, setView, setPo
 
     return (
         <div>
-            <button onClick={() => location.reload()} className='absolute z-50 top-4 left-4 bg-black/70 p-4 rounded-full'><svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg></button>
+            <BackButton></BackButton>
             <div className='absolute right-2 top-2 text-center z-50 bg-black/30 p-4 rounded-2xl'><span className="font-semibold">Total Points</span> <br /> <span className='font-bold text-xl'>{Math.round(points)}</span></div>
             <div className='h-[11.5vh] pt-[1.5vh] bg-gradient-to-b to-gray-800 from-black'>
                 <div className="text-2xl font-bold text-center">Round {currentRound - 1}/{rounds}</div>

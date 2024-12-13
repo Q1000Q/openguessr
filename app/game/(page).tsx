@@ -6,6 +6,7 @@ import RoundEnd from './(roundEnd)';
 import GameEnd from './(gameEnd)';
 import GameMap from './(gameMap)';
 import getRandomCoordsFromLists from './(randomLocation)';
+import BackButton from './(backButton)';
 
 const render = (status: Status) => {
   if (status === Status.LOADING) return <div>Loading...</div>;
@@ -86,7 +87,7 @@ const Game: React.FC<GameProps> = ({rounds, time, moving, zoomPan}) => {
 
   return (
     view == "game" ? (<div onClick={() => { setIsMapSelected(false); }} className='h-[100vh] w-full'>
-      <button onClick={() => location.reload()} className='absolute z-50 top-4 left-4 bg-black/70 p-4 rounded-full'><svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg></button>
+      <BackButton></BackButton>
       <div className='absolute right-2 top-2 text-center z-50 bg-black/70 p-4 rounded-2xl'><span className="font-semibold">Total Points</span> <br /> <span className='font-bold text-xl'>{Math.round(points)}</span></div>
       <div className='absolute top-2 z-50 left-1/2 transform -translate-x-1/2 text-3xl bg-black/70 py-4 px-16 rounded-xl'>
         <strong>{`${Math.floor(currentTime / 60).toString().padStart(2, '0')}:${(currentTime % 60).toString().padStart(2, '0')}`}</strong>
