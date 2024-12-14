@@ -8,7 +8,7 @@ import Switch from '@mui/material/Switch';
 
 export default function Home() {
 
-  // Set the localStorage to have mainView in it, to save state of where you ended, to not loose it after reload of the page
+    // Set the localStorage to have mainView in it, to save state of where you ended, to not loose it after reload of the page
   useEffect(() => {
     if (!localStorage.getItem("mainView")) {
       localStorage.setItem("mainView", "home");
@@ -16,7 +16,7 @@ export default function Home() {
     setView(localStorage.getItem("mainView") ?? "home");
   }, [])
   
-
+    // Setting initial values and load then from localStorage if they exists
   const [rounds, setRounds] = useState(5);
   const [time, setTime] = useState(180);
   const [view, setView] = useState("home");
@@ -32,7 +32,7 @@ export default function Home() {
     setZoomPan(localStorage.getItem("zoomPan") !== null ? localStorage.getItem("zoomPan") === "true" : true);
   }, [])
   
-
+    // Handle option buttons  
   const decreseRounds = async () => {
     if (rounds > 1) {
       setRounds(rounds - 1);
