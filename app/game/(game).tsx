@@ -43,7 +43,6 @@ const Game: React.FC<GameProps> = ({ rounds: provRounds, time: provTime, moving:
     const [isDataLoaded, setIsDataLoaded] = useState(false);
 
     useEffect(() => {
-        console.log("loadData");
         const savedView = localStorage.getItem("view");
         const savedCurrentRound = localStorage.getItem("currentRound");
         const savedPoints = localStorage.getItem("points");
@@ -71,7 +70,6 @@ const Game: React.FC<GameProps> = ({ rounds: provRounds, time: provTime, moving:
 
     useEffect(() => {
         if (isDataLoaded) {
-            console.log("setData");
             localStorage.setItem("view", view);
             localStorage.setItem("currentRound", currentRound.toString());
             localStorage.setItem("points", points.toString());
@@ -93,10 +91,6 @@ const Game: React.FC<GameProps> = ({ rounds: provRounds, time: provTime, moving:
     if (localStorage.getItem("locationLat") == "0" && localStorage.getItem("locationLng") == "0") {
         fetchCoords();
     }
-
-    useEffect(() => {
-        setCurrentTime(time);
-    }, [view, time]);
 
     useEffect(() => {
         if (currentTime <= 0) {
