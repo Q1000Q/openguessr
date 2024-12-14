@@ -136,11 +136,11 @@ export default function Home() {
         <h1 className="mt-12 text-center w-full text-3xl">Multiplayer</h1>
         <div className="flex w-full justify-around">
             <div className="grid w-full grid-cols-[1fr] grid-rows-[2fr_3fr]">
-                <h2 className="text-center bg-zinc-600 col-span-3 rounded-tl">Username</h2>
-                <input onChange={(e) => {setUsername(e.target.value); localStorage.setItem("username", e.target.value);}} type="text" name="rounds" id="rounds" value={username} className="text-black text-center w-full rounded-bl" />
+                <h2 className="text-center bg-zinc-600 col-span-3 rounded-t">Username</h2>
+                <input onChange={(e) => {setUsername(e.target.value); localStorage.setItem("username", e.target.value);}} type="text" name="rounds" id="rounds" value={username} className="text-black text-center w-full rounded-b" />
             </div>
 
-            <button className="p-4 w-full bg-zinc-600 text-center text-xl hover:bg-zinc-800 transition-colors duration-200 border-x">Create Lobby</button>
+            <button className="p-4 w-full bg-zinc-600 text-center text-xl hover:bg-zinc-800 transition-colors duration-200 ml-8 rounded-l">Create Lobby</button>
 
             <div className="w-full bg-zinc-600 grid grid-cols-[7fr_1fr] grid-rows-[2fr_3fr] rounded-r">
                 <h2 className="col-span-2 text-center">Join Lobby</h2>
