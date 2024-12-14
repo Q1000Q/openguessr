@@ -24,12 +24,25 @@ export default function Home() {
   const [moving, setMoving] = useState(true);
   const [zoomPan, setZoomPan] = useState(true);
 
+  const [username, setUsername] = useState("");
+  const [lobbyCode, setLobbyCode] = useState("");
+
   useEffect(() => {
     setRounds(Number(localStorage.getItem("rounds") ?? "5"));
     setTime(Number(localStorage.getItem("time") ?? "180"));
 
     setMoving(localStorage.getItem("moving") !== null ? localStorage.getItem("moving") === "true" : true);
     setZoomPan(localStorage.getItem("zoomPan") !== null ? localStorage.getItem("zoomPan") === "true" : true);
+
+    const dataUsetname = localStorage.getItem("username");
+    if (dataUsetname) {
+        setUsername(dataUsetname);
+    } else {
+        const randUsername = "User" + String(Math.floor(100000 + Math.random() * 900000));
+        setUsername(randUsername);
+        localStorage.setItem("username", randUsername);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   
     // Handle option buttons  
@@ -80,6 +93,10 @@ export default function Home() {
     setView("game");
   }
 
+
+    // Multiplayer handlers
+
+
   return (view == "home" ? 
     (<div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
@@ -88,7 +105,7 @@ export default function Home() {
           <div className="grid grid-cols-[1fr_6fr_1fr] grid-rows-[2fr_3fr]">
             <h2 className="text-center bg-zinc-600 rounded-t col-span-3">Rounds</h2>
             <button className="bg-zinc-600 rounded-bl hover:bg-zinc-800 transition-colors duration-200" onClick={decreseRounds}>-</button>
-            <input onChange={(e) => setRounds(Number(e.target.value))} type="number" name="rounds" id="rounds" value={rounds} className="text-black text-center w-full rounded-t-sm" />
+            <input onChange={(e) => {setRounds(Number(e.target.value)); localStorage.setItem("rounds", e.target.value);}} type="number" name="rounds" id="rounds" value={rounds} className="text-black text-center w-full rounded-t-sm" />
             <button className="bg-zinc-600 rounded-br hover:bg-zinc-800 transition-colors duration-200" onClick={increseRounds}>+</button>
           </div>
           <div className="bg-zinc-600 rounded flex justify-center items-center">
@@ -111,9 +128,25 @@ export default function Home() {
           <div className="grid grid-cols-[1fr_6fr_1fr] grid-rows-[2fr_3fr]">
             <h2 className="text-center bg-zinc-600 rounded-t col-span-3">Time Per Round (seconds)</h2>
             <button className="bg-zinc-600 rounded-bl hover:bg-zinc-800 transition-colors duration-200" onClick={decreseTime}>-</button>
-            <input onChange={(e) => setTime(Number(e.target.value))} type="number" name="time" id="time" value={time} className="text-black text-center w-full rounded-t-sm" />
+            <input onChange={(e) => {setTime(Number(e.target.value)); localStorage.setItem("time", e.target.value);}} type="number" name="time" id="time" value={time} className="text-black text-center w-full rounded-t-sm" />
             <button className="bg-zinc-600 rounded-br hover:bg-zinc-800 transition-colors duration-200" onClick={increseTime}>+</button>
           </div>
+        </div>
+
+        <h1 className="mt-12 text-center w-full text-3xl">Multiplayer</h1>
+        <div className="flex w-full justify-around">
+            <div className="grid w-full grid-cols-[1fr] grid-rows-[2fr_3fr]">
+                <h2 className="text-center bg-zinc-600 col-span-3 rounded-tl">Username</h2>
+                <input onChange={(e) => {setUsername(e.target.value); localStorage.setItem("username", e.target.value);}} type="text" name="rounds" id="rounds" value={username} className="text-black text-center w-full rounded-bl" />
+            </div>
+
+            <button className="p-4 w-full bg-zinc-600 text-center text-xl hover:bg-zinc-800 transition-colors duration-200 border-x">Create Lobby</button>
+
+            <div className="w-full bg-zinc-600 grid grid-cols-[7fr_1fr] grid-rows-[2fr_3fr] rounded-r">
+                <h2 className="col-span-2 text-center">Join Lobby</h2>
+                <input onChange={(e) => setLobbyCode(e.target.value)} type="text" name="time" id="time" value={lobbyCode} className="text-black text-center w-full" />
+                <button className="text-center text-xl hover:bg-zinc-800 transition-colors duration-200">✔</button>
+            </div>
         </div>
       </main>
     </div>) : view == "game" ? <Game rounds={rounds} time={time} moving={moving} zoomPan={zoomPan}></Game> : ""
