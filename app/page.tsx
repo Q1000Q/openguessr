@@ -17,9 +17,21 @@ export default function Home() {
   }, [])
   
 
-  const [rounds, setRounds] = useState(Number(localStorage.getItem("rounds") ?? "5") ?? 5);
-  const [time, setTime] = useState(Number(localStorage.getItem("time") ?? "180") ?? 180);
+  const [rounds, setRounds] = useState(5);
+  const [time, setTime] = useState(180);
   const [view, setView] = useState("home");
+
+  const [moving, setMoving] = useState(true);
+  const [zoomPan, setZoomPan] = useState(true);
+
+  useEffect(() => {
+    setRounds(Number(localStorage.getItem("rounds") ?? "5"));
+    setTime(Number(localStorage.getItem("time") ?? "180"));
+
+    setMoving(localStorage.getItem("moving") !== null ? localStorage.getItem("moving") === "true" : true);
+    setZoomPan(localStorage.getItem("zoomPan") !== null ? localStorage.getItem("zoomPan") === "true" : true);
+  }, [])
+  
 
   const decreseRounds = async () => {
     if (rounds > 1) {
@@ -41,15 +53,13 @@ export default function Home() {
       localStorage.setItem("time", String(time - (time%30 == 0 ? 30 : time%30)))
     }
   }
-  
+
   const increseTime = async () => {
     if (time < 3000) {
       setTime(time + 30 - time%30);
       localStorage.setItem("time", String(time + 30 - time%30))
     }
   }
-
-  const [moving, setMoving] = useState(localStorage.getItem("moving") !== null ? localStorage.getItem("moving") === "true" : true);
 
   const handleMoving = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked === true) {
@@ -59,8 +69,6 @@ export default function Home() {
     setMoving(event.target.checked);
     localStorage.setItem("moving", String(event.target.checked));
   };
-
-  const [zoomPan, setZoomPan] = useState(localStorage.getItem("zoomPan") !== null ? localStorage.getItem("zoomPan") === "true" : true);
 
   const handleZoomPan = (event: React.ChangeEvent<HTMLInputElement>) => {
     setZoomPan(event.target.checked);
