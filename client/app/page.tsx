@@ -6,6 +6,9 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 
+import { CreateLobby } from "./(multiplayer)/lobbyHandler";
+import Lobby from "./(multiplayer)/lobby";
+
 export default function Home() {
 
     // Set the localStorage to have mainView in it, to save state of where you ended, to not loose it after reload of the page
@@ -95,7 +98,14 @@ export default function Home() {
 
 
     // Multiplayer handlers
+    const handleJoinLobby = () => {
+        setView("lobby");
+    }
 
+    const handleCreateLobby = async (): Promise<void> => {
+        const fetchedLobbyCode = await CreateLobby(rounds, time, moving, zoomPan);
+        setLobbyCode(await fetchedLobbyCode);
+    }
 
   return (view == "home" ? 
     (<div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -140,15 +150,15 @@ export default function Home() {
                 <input onChange={(e) => {setUsername(e.target.value); localStorage.setItem("username", e.target.value);}} type="text" name="rounds" id="rounds" value={username} className="text-black text-center w-full rounded-b" />
             </div>
 
-            <button className="p-4 w-full bg-zinc-600 text-center text-xl hover:bg-zinc-800 transition-colors duration-200 ml-8 rounded-l">Create Lobby</button>
+            <button onClick={handleCreateLobby} className="p-4 w-full bg-zinc-600 text-center text-xl hover:bg-zinc-800 transition-colors duration-200 ml-8 rounded-l">Create Lobby</button>
 
             <div className="w-full bg-zinc-600 grid grid-cols-[7fr_1fr] grid-rows-[2fr_3fr] rounded-r">
                 <h2 className="col-span-2 text-center">Join Lobby</h2>
                 <input onChange={(e) => setLobbyCode(e.target.value)} type="text" name="time" id="time" value={lobbyCode} className="text-black text-center w-full" />
-                <button className="text-center text-xl hover:bg-zinc-800 transition-colors duration-200">✔</button>
+                <button onClick={handleJoinLobby} className="text-center text-xl hover:bg-zinc-800 transition-colors duration-200">✔</button>
             </div>
         </div>
       </main>
-    </div>) : view == "game" ? <Game rounds={rounds} time={time} moving={moving} zoomPan={zoomPan}></Game> : ""
+    </div>) : view == "game" ? <Game rounds={rounds} time={time} moving={moving} zoomPan={zoomPan}></Game>: view == "lobby" ? <Lobby lobbyId={lobbyCode} username={username}></Lobby> : ""
   );
 }

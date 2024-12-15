@@ -1,42 +1,45 @@
+import { Router } from 'express';
 import { Server, Socket } from 'socket.io';
+
+const router = Router();
 
 interface Lobby {
     id: string;
     users: string[];
+    settings: {
+        rounds: number;
+        time: number;
+        moving: boolean;
+        zoomPan: boolean;
+    }
 }
 
 const lobbies: Record<string, Lobby> = {};
 
-export function createLobby(io: Server, lobbyId: string) {
-    if (!lobbies[lobbyId]) {
-        lobbies[lobbyId] = { id: lobbyId, users: [] };
-    }
-
+export const joinLobby = (io: Server) => {
     io.on('connection', (socket: Socket) => {
-        socket.on('joinLobby', (userId: string) => {
-            if (lobbies[lobbyId]) {
-                lobbies[lobbyId].users.push(userId);
-                socket.join(lobbyId);
-                io.to(lobbyId).emit('userJoined', userId);
-                console.log(`User ${userId} joined lobby ${lobbyId}`);
+        socket.on('joinLobby', ({ username, lobbyId }) => {
+            const lobby = lobbies[lobbyId];
+            if (lobby) {
+                if (!lobby.users.includes(username)) {
+                    lobby.users.push(username);
+                    socket.join(lobbyId);
+                    io.to(lobbyId).emit('userJoined', { username, lobby });
+                    console.log(`${username} joined lobby: ${lobbyId}`);
+                } else { socket.emit('error', 'User already connected'); }
+            } else {
+                socket.emit('error', 'Lobby not found');
             }
-        });
-
-        socket.on('leaveLobby', (userId: string) => {
-            if (lobbies[lobbyId]) {
-                lobbies[lobbyId].users = lobbies[lobbyId].users.filter(id => id !== userId);
-                socket.leave(lobbyId);
-                io.to(lobbyId).emit('userLeft', userId);
-                console.log(`User ${userId} left lobby ${lobbyId}`);
-            }
-        });
-
-        socket.on('disconnect', () => {
-            for (const lobby of Object.values(lobbies)) {
-                lobby.users = lobby.users.filter(id => id !== socket.id);
-                io.to(lobby.id).emit('userLeft', socket.id);
-            }
-            console.log(`User ${socket.id} disconnected`);
         });
     });
 }
+
+router.put("/create", async (req, res) => {
+    const { rounds, time, moving, zoomPan } = req.body;
+    const lobbyId = Math.random().toString(16).substr(2, 6).toUpperCase();
+    lobbies[lobbyId] = { id: lobbyId, users: [], settings: {rounds, time, moving, zoomPan} };
+    console.log(`Created lobby: ${lobbyId} (Rounds: ${rounds}; Time: ${time}; Moving: ${moving}; ZoomPan: ${zoomPan})`);
+    res.send({ lobbyId });
+})
+
+export default router;
