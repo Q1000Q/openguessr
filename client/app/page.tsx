@@ -99,6 +99,7 @@ export default function Home() {
 
     // Multiplayer handlers
     const handleJoinLobby = () => {
+        localStorage.setItem("mainView", "lobby");
         setView("lobby");
     }
 

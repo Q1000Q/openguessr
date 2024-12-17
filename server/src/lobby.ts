@@ -26,7 +26,11 @@ export const joinLobby = (io: Server) => {
                     socket.join(lobbyId);
                     io.to(lobbyId).emit('userJoined', { username, lobby });
                     console.log(`${username} joined lobby: ${lobbyId}`);
-                } else { socket.emit('error', 'User already connected'); }
+                } else {
+                    socket.join(lobbyId);
+                    io.to(lobbyId).emit('userJoined', { username, lobby });
+                    console.log(`${username} rejoined lobby: ${lobbyId}`);
+                }
             } else {
                 socket.emit('error', 'Lobby not found');
             }

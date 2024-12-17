@@ -6,6 +6,7 @@ const BackButton = () => {
         localStorage.removeItem("locationLng");
         localStorage.removeItem("points");
         localStorage.removeItem("view");
+        localStorage.removeItem("lobbyId");
 
 
         localStorage.setItem("mainView", "home");

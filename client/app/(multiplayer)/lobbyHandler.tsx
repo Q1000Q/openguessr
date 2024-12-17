@@ -4,6 +4,8 @@ export const socket = io('http://localhost:3001'); // Replace with your server U
 
 export const JoinLobby = (username: string, lobbyId: string) => {
     if (lobbyId && username) {
+        localStorage.setItem('username', username);
+        localStorage.setItem('lobbyId', lobbyId);
         socket.emit('joinLobby', { username, lobbyId });
     }
 };
