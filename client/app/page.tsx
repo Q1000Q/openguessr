@@ -100,12 +100,14 @@ export default function Home() {
     // Multiplayer handlers
     const handleJoinLobby = () => {
         localStorage.setItem("mainView", "lobby");
+        localStorage.removeItem("lobbyId");
         setView("lobby");
     }
 
     const handleCreateLobby = async (): Promise<void> => {
         const fetchedLobbyCode = await CreateLobby(rounds, time, moving, zoomPan);
         setLobbyCode(await fetchedLobbyCode);
+        handleJoinLobby();
     }
 
   return (view == "home" ? 

@@ -3,7 +3,7 @@ import http from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
 
-import lobbyRouter from "./lobby"
+import lobbyRouter, { kickUser } from "./lobby"
 import { joinLobby } from './lobby';
 
 const app = express();
@@ -25,6 +25,7 @@ app.get('/', (req, res) => {
 
 app.use("/lobby", lobbyRouter);
 joinLobby(io);
+kickUser(io);
 
 io.on('connection', (socket) => {
     console.log('a user connected');
