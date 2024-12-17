@@ -58,20 +58,20 @@ const Lobby = ({username, lobbyId}: {username: string, lobbyId: string}) => {
                 <table className="border rounded w-1/4 h-[50vh] text-center text-xl font-bold">
                     <tbody>
                         <tr>
-                            <td className="bg-green-600">{lobbyData?.users[0]}</td>
-                            {lobbyData?.users[1] ? <td className="bg-blue-600">{lobbyData?.users[1]}</td> : ""}
+                            <td className="bg-green-600 w-1/2">{lobbyData?.users[0]}</td>
+                            {lobbyData?.users[1] ? <td className="bg-blue-600 w-1/2">{lobbyData?.users[1]}</td> : ""}
                         </tr>
                         {lobbyData?.users[2] ? <tr>
-                            {lobbyData?.users[2] ? <td className="bg-yellow-600">{lobbyData?.users[2]}</td> : ""}
-                            {lobbyData?.users[3] ? <td className="bg-purple-600">{lobbyData?.users[3]}</td> : ""}
+                            {lobbyData?.users[2] ? <td className="bg-yellow-600 w-1/2">{lobbyData?.users[2]}</td> : ""}
+                            {lobbyData?.users[3] ? <td className="bg-purple-600 w-1/2">{lobbyData?.users[3]}</td> : ""}
                         </tr> : ""}
                         {lobbyData?.users[4] ? <tr>
-                            {lobbyData?.users[4] ? <td className="bg-orange-600">{lobbyData?.users[4]}</td> : ""}
-                            {lobbyData?.users[5] ? <td className="bg-pink-600">{lobbyData?.users[5]}</td> : ""}
+                            {lobbyData?.users[4] ? <td className="bg-orange-600 w-1/2">{lobbyData?.users[4]}</td> : ""}
+                            {lobbyData?.users[5] ? <td className="bg-pink-600 w-1/2">{lobbyData?.users[5]}</td> : ""}
                         </tr> : ""}
                         {lobbyData?.users[6] ? <tr>
-                            {lobbyData?.users[6] ? <td className="bg-teal-600">{lobbyData?.users[6]}</td> : ""}
-                            {lobbyData?.users[7] ? <td className="bg-rose-600">{lobbyData?.users[7]}</td> : ""}
+                            {lobbyData?.users[6] ? <td className="bg-teal-600 w-1/2">{lobbyData?.users[6]}</td> : ""}
+                            {lobbyData?.users[7] ? <td className="bg-rose-600 w-1/2">{lobbyData?.users[7]}</td> : ""}
                         </tr> : ""}
                     </tbody>
                 </table>
