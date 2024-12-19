@@ -54,6 +54,24 @@ export const kickUser = (io: Server) => {
                 } else {
                     socket.emit('error', 'Only the lobby creator can kick players');
                 }
+            } else {
+                socket.emit('error', 'Lobby not found');
+            }
+        })
+    });
+}
+
+export const settingsUpdate = (io: Server) => {
+    io.on('connection', (socket: Socket) => {
+        socket.on('settingsUpdate', ({ lobbyId, rounds, time, moving, zoomPan }) => {
+            const lobby = lobbies[lobbyId];
+            if (lobby) {
+                lobby.settings = { rounds, time, moving, zoomPan };
+                socket.join(lobbyId);
+                io.to(lobbyId).emit('settingUpdated', { ...lobby.settings, rounds, time, moving, zoomPan });
+
+            } else {
+                socket.emit('error', 'Lobby not found');
             }
         })
     });
