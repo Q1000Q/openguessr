@@ -6,6 +6,7 @@ import BackButton from "../game/(backButton)";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
+import getRandomCoordsFromLists from "../game/(randomLocation)";
 
 interface lobbyData {
     id: string;
@@ -120,6 +121,14 @@ const Lobby = ({username, lobbyId}: {username: string, lobbyId: string}) => {
         updateSettings(lobbyData?.settings.rounds, lobbyData?.settings.time, lobbyData?.settings.moving, event.target.checked);
     };
 
+
+    const [multiView, setMultiView] = useState<string>("lobby");
+
+    const handlePlayGame = async () => {
+        const { props: { lat, lng } } = await getRandomCoordsFromLists();
+        socket.emit('startGame', { location: { lat, lng } });
+    }
+
     return (
         <div>
             <BackButton></BackButton>
@@ -134,7 +143,7 @@ const Lobby = ({username, lobbyId}: {username: string, lobbyId: string}) => {
                             </td>
                             {lobbyData?.users[1] ? <td className="bg-blue-600 w-1/2">
                                 <div>{lobbyData?.users[1]}</div>
-                                {lobbyData?.users[0] === username ? <button onClick={() => kickPlayerHandler(lobbyData?.users[1])} className="bg-red-600 px-4 rounded">KICK</button> : ""}
+                                {lobbyData?.users[0] === username ? <button onClick={() => kickPlayerHandler(lobbyData?.users[1])} className="bg-red-600 px-4 rounded mt-2">KICK</button> : ""}
                             </td> : ""}
                         </tr>
                         {lobbyData?.users[2] ? <tr>
@@ -206,8 +215,8 @@ const Lobby = ({username, lobbyId}: {username: string, lobbyId: string}) => {
                 </div>
             </div>
 
-            <button onClick={() => {}} className='bottom-0 h-[8.5vh] min-h-12 w-full bg-zinc-600 hover:bg-zinc-800 transition-colors duration-200'>
-                    <div className='flex justify-center items-center font-bold text-4xl'>Start Game</div>
+            <button onClick={() => {}} className={`bottom-0 h-[8.5vh] min-h-12 w-full bg-zinc-600 transition-colors duration-200 ${lobbyData?.users[0] != username ? "hover:cursor-not-allowed": "hover:bg-zinc-800"}`} disabled={lobbyData?.users[0] != username} >
+                <div onClick={handlePlayGame} className='flex justify-center items-center font-bold text-4xl'>Start Game</div>
             </button>
         </div>
     )

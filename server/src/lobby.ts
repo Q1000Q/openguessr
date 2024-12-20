@@ -15,7 +15,7 @@ interface Lobby {
     userSockets: Record<string, string>; // Add this to store user socket ids
 }
 
-const lobbies: Record<string, Lobby> = {};
+export const lobbies: Record<string, Lobby> = {};
 
 export const joinLobby = (io: Server) => {
     io.on('connection', (socket: Socket) => {
@@ -23,15 +23,19 @@ export const joinLobby = (io: Server) => {
             const lobby = lobbies[lobbyId];
             if (lobby) {
                 lobby.userSockets[username] = socket.id;
-                if (!lobby.users.includes(username)) {
-                    lobby.users.push(username);
-                    socket.join(lobbyId);
-                    io.to(lobbyId).emit('userJoined', { username, lobby: { ...lobby, userSockets: undefined } });
-                    console.log(`${username} joined lobby: ${lobbyId}`);
+                if (lobby.users.length <= 8) {
+                    if (!lobby.users.includes(username)) {
+                        lobby.users.push(username);
+                        socket.join(lobbyId);
+                        io.to(lobbyId).emit('userJoined', { username, lobby: { ...lobby, userSockets: undefined } });
+                        console.log(`${username} joined lobby: ${lobbyId}`);
+                    } else {
+                        socket.join(lobbyId);
+                        io.to(lobbyId).emit('userJoined', { username, lobby: { ...lobby, userSockets: undefined } });
+                        console.log(`${username} rejoined lobby: ${lobbyId}`);
+                    }
                 } else {
-                    socket.join(lobbyId);
-                    io.to(lobbyId).emit('userJoined', { username, lobby: { ...lobby, userSockets: undefined } });
-                    console.log(`${username} rejoined lobby: ${lobbyId}`);
+                    socket.emit('error', 'Users limit in one lobby exeded');
                 }
             } else {
                 socket.emit('error', 'Lobby not found');

@@ -5,6 +5,7 @@ import cors from 'cors';
 
 import lobbyRouter, { kickUser, settingsUpdate } from "./lobby"
 import { joinLobby } from './lobby';
+import { startGame } from './game';
 
 const app = express();
 app.use(cors());
@@ -27,6 +28,7 @@ app.use("/lobby", lobbyRouter);
 joinLobby(io);
 kickUser(io);
 settingsUpdate(io);
+startGame(io);
 
 io.on('connection', (socket) => {
     console.log('a user connected');
