@@ -3,9 +3,9 @@ import http from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
 
-import lobbyRouter, { kickUser, settingsUpdate } from "./lobby"
-import { joinLobby } from './lobby';
-import { getGame, getPoints, guess, startGame, nextRound } from './game';
+import lobbyRouter, { kickUser, settingsUpdate } from "./lobby.js";
+import { joinLobby } from './lobby.js';
+import { getGame, getPoints, guess, startGame, nextRound } from './game.js';
 
 const app = express();
 app.use(cors());
@@ -18,10 +18,10 @@ const io = new Server(server, {
     }
 });
 
-app.use(express.json())
+app.use(express.json());
 
-app.get('/', (req, res) => {
-    res.send('Hello World!');
+app.get('/', (_, res) => {
+    res.send('Server running');
 });
 
 app.use("/lobby", lobbyRouter);
@@ -45,3 +45,5 @@ const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+export {};

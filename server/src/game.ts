@@ -1,6 +1,6 @@
 import { Server, Socket } from 'socket.io';
-import { lobbies } from './lobby';
-import getRandomCoordsFromLists from './randomLocation';
+import { lobbies } from './lobby.js';
+import getRandomCoordsFromLists from './randomLocation.js';
 
 interface Game {
     id: string;
