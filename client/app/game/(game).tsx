@@ -102,6 +102,8 @@ const Game: React.FC<GameProps> = ({ rounds: provRounds, time: provTime, moving:
                 setCurrentTime((prevTime) => prevTime - 1);
             }, 1000)
             return () => clearInterval(intervalId);
+        } else {
+            setCurrentTime(time);
         }
     }, [currentTime, currentRound, rounds, time, view]);
 
@@ -196,6 +198,7 @@ const Game: React.FC<GameProps> = ({ rounds: provRounds, time: provTime, moving:
             setPoints={setPoints}
             selectedLocation={{ selectedLat, selectedLng }}
             location={{ locationLat, locationLng }}
+            time={time}
         />
     ) : (
         <GameEnd points={points} rounds={rounds} />

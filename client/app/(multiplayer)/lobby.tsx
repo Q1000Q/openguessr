@@ -6,9 +6,9 @@ import BackButton from "../game/(backButton)";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import getRandomCoordsFromLists from "../game/(randomLocation)";
+import Game from "./game";
 
-interface lobbyData {
+export interface lobbyData {
     id: string;
     users: string[];
     settings: {
@@ -19,6 +19,33 @@ interface lobbyData {
     }
 }
 
+export interface Game {
+    id: string;
+    lobbyId: string;
+
+    currentRound: number;
+    currentTime: number;
+
+    location: {
+        lat: number,
+        lng: number
+    };
+    guessedLocations: Record<string, {lat: number, lng: number}>;
+
+    points: Record<string, number>;
+}
+
+export const userMarkers = {
+    0: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+    1: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+    2: 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png',
+    3: 'http://maps.google.com/mapfiles/ms/icons/purple-dot.png',
+    4: 'http://maps.google.com/mapfiles/ms/icons/orange-dot.png',
+    5: 'http://maps.google.com/mapfiles/ms/icons/pink-dot.png',
+    6: '/teal-dot.png',
+    7: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+}
+
 const Lobby = ({username, lobbyId}: {username: string, lobbyId: string}) => {
 
     const [lobbyData, setLobbyData] = useState<lobbyData | null>(null);
@@ -26,6 +53,27 @@ const Lobby = ({username, lobbyId}: {username: string, lobbyId: string}) => {
     const [currentLobbyId, setCurrentlobbyId] = useState(lobbyId);
 
     const hasEmitted = useRef(false); // Ref to track if the event has been emitted
+
+    const [multiView, setMultiView] = useState<string>("lobby");
+    const [gameId, setGameId] = useState<string>("");
+    const [gameData, setGameData] = useState<Game | null>(null);
+
+    useEffect(() => {
+        const savedGameId = localStorage.getItem('gameId');
+        const savedView = localStorage.getItem('multiView') || "lobby";
+        if (savedView == 'game') {
+            if (savedGameId) {
+                setGameId(savedGameId);
+                socket.emit('getGame', { gameId: gameId });
+            } else {
+                localStorage.setItem('multiView', 'lobby');
+                setMultiView('lobby');
+            }
+        } else {
+            setMultiView(savedView);
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     useEffect(() => {
         const savedLobbyId = localStorage.getItem('lobbyId');
@@ -58,11 +106,33 @@ const Lobby = ({username, lobbyId}: {username: string, lobbyId: string}) => {
         socket.on('settingUpdated', (data) => {
             setLobbyData((prevData) => prevData ? { ...prevData, settings: data } : null);
         })
+        socket.on('gameStarted', (data) => {
+            setGameId(data.gameId);
+            setGameData(data.game);
+            localStorage.setItem('multiView', 'game');
+            localStorage.setItem('gameId', data.gameId);
+            setMultiView('game');
+        })
+        socket.on('sendGame', (data) => {
+            setGameData(data.game);
+            setLobbyData(data.lobby);
+            setMultiView('game');
+        })
+        socket.on('roundEnd', (data) => {
+            setGameData(data.game);
+        })
 
         socket.on('error', (err) => {
             alert(`Connection error: ${err}`);
             if (err == "Lobby not found") {
+                localStorage.removeItem('gameId');
+                localStorage.removeItem('multiView');
                 localStorage.setItem("mainView", "home");
+                location.reload();
+            }
+            if (err = "You are not in the game somehow") {
+                localStorage.removeItem('gameId');
+                localStorage.removeItem('multiView');
                 location.reload();
             }
         });
@@ -121,16 +191,12 @@ const Lobby = ({username, lobbyId}: {username: string, lobbyId: string}) => {
         updateSettings(lobbyData?.settings.rounds, lobbyData?.settings.time, lobbyData?.settings.moving, event.target.checked);
     };
 
-
-    const [multiView, setMultiView] = useState<string>("lobby");
-
     const handlePlayGame = async () => {
-        const { props: { lat, lng } } = await getRandomCoordsFromLists();
-        socket.emit('startGame', { location: { lat, lng } });
+        socket.emit('startGame', { lobbyId: currentLobbyId });
     }
 
     return (
-        <div>
+        multiView == "lobby" ? (<div>
             <BackButton></BackButton>
             <h1 className="w-full text-center text-3xl mt-4">Lobby: {lobbyData?.id}</h1>
             {/* Players List */}
@@ -218,7 +284,7 @@ const Lobby = ({username, lobbyId}: {username: string, lobbyId: string}) => {
             <button onClick={() => {}} className={`bottom-0 h-[8.5vh] min-h-12 w-full bg-zinc-600 transition-colors duration-200 ${lobbyData?.users[0] != username ? "hover:cursor-not-allowed": "hover:bg-zinc-800"}`} disabled={lobbyData?.users[0] != username} >
                 <div onClick={handlePlayGame} className='flex justify-center items-center font-bold text-4xl'>Start Game</div>
             </button>
-        </div>
+        </div>) : (lobbyData && gameData ? <Game lobby={lobbyData} game={gameData} setGame={setGameData} username={username} ></Game> : null)
     )
 }
 

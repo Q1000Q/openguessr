@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import RoundEndMap from './(roundEndMap)';
 import BackButton from './(backButton)';
+import { Status, Wrapper } from '@googlemaps/react-wrapper';
 
 interface RoundEndProps {
     currentRound: number;
@@ -16,9 +17,10 @@ interface RoundEndProps {
         locationLat: number;
         locationLng: number;
     };
+    time: number;
 }
 
-const RoundEnd = ({currentRound, rounds, points, setView, setPoints, selectedLocation: {selectedLat, selectedLng}, location: {locationLat, locationLng}}: RoundEndProps) => {
+const RoundEnd = ({currentRound, rounds, points, setView, setPoints, selectedLocation: {selectedLat, selectedLng}, location: {locationLat, locationLng}, time}: RoundEndProps) => {
 
     const [distance, setDistance] = useState(0);
     const [calculatedPoints, setCalculatedPoints] = useState(0);
@@ -50,13 +52,19 @@ const RoundEnd = ({currentRound, rounds, points, setView, setPoints, selectedLoc
         const newCurrentRound = (currentRound + 1).toString()
         localStorage.setItem("currentRound", newCurrentRound.toString());
 
-        localStorage.removeItem("locationLat");
-        localStorage.removeItem("locationLng");
-        localStorage.removeItem("currentTime");
+        localStorage.setItem("locationLat", "0");
+        localStorage.setItem("locationLng", "0");
+        localStorage.setItem("currentTime", time.toString());
         
         localStorage.setItem("view", "game");
         setView("game");
     }
+    
+    const render = (status: Status) => {
+        if (status === Status.LOADING) return <div>Loading...</div>;
+        if (status === Status.FAILURE) return <div>Error loading map</div>;
+        return <div />;
+    };
     
 
     return (
@@ -68,7 +76,12 @@ const RoundEnd = ({currentRound, rounds, points, setView, setPoints, selectedLoc
                 <div className='text-center mt-4 text-xl'><span>{Math.round(distance)} KM</span><span className='mx-4'>&ndash;</span><span>{Math.round(calculatedPoints)} points</span></div>
             </div>
            <div className="h-[80vh]">
-               <RoundEndMap location={{lat: locationLat, lng: locationLng}} selected={{selectedLat, selectedLng}}></RoundEndMap>
+               <Wrapper
+                    apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""}
+                    render={render}
+                >
+                   <RoundEndMap location={{lat: locationLat, lng: locationLng}} selected={{selectedLat, selectedLng}}></RoundEndMap>
+               </Wrapper>
            </div>
            {currentRound == rounds + 1 ? (
                 <button onClick={() => setView("gameEnd")} className='bottom-0 absolute h-[8.5vh] w-full bg-gradient-to-t to-gray-900 from-black'>

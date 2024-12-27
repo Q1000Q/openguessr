@@ -22,7 +22,7 @@ const greenMarkerIcon = {
 };
 
 const redMarkerIcon = {
-    url: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png', // URL of a green marker icon
+    url: '/black-dot.png', // URL of a green marker icon
 };
 
 const RoundEndMap = ({ location: { lat, lng }, selected: { selectedLat, selectedLng } }: RoundEndMapProps) => {
@@ -49,7 +49,7 @@ const RoundEndMap = ({ location: { lat, lng }, selected: { selectedLat, selected
             {selectedLat && selectedLng ? (<Polyline
                 path={[{lat: latLocal, lng: lngLocal}, {lat: selectedLat, lng: selectedLng}]}
                 options={{
-                    strokeColor: '#FF00FF',
+                    strokeColor: '#000000',
                     strokeOpacity: 1.0,
                     strokeWeight: 2,
                 }}
