@@ -90,6 +90,7 @@ const Game: React.FC<GameProps> = ({ lobby, game, setGame, username }) => {
         socket.on('nextRound', (game) => {
             setGame(game);
             setView("game");
+            setGuessed(false);
         })
         socket.on('gameEnd', (game) => {
             setGame(game);
