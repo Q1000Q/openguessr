@@ -119,7 +119,7 @@ const Game: React.FC<GameProps> = ({ rounds: provRounds, time: provTime, moving:
     useEffect(() => {
         const handleKeyUp = (event: { key: string; keyCode: number }) => {
             if (event.key === " " || event.keyCode === 32) {
-                if (isMapSelected) {
+                if (isMapSelected && (selectedLat || selectedLng)) {
                     setView("roundEnd");
                 }
             }
@@ -131,7 +131,7 @@ const Game: React.FC<GameProps> = ({ rounds: provRounds, time: provTime, moving:
         return () => {
             window.removeEventListener("keyup", handleKeyUp);
         };
-    }, [isMapSelected]);
+    }, [isMapSelected, selectedLat, selectedLng]);
 
     return view == "game" ? (
         <div

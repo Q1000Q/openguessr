@@ -122,7 +122,7 @@ const Game: React.FC<GameProps> = ({ lobby, game, setGame, username }) => {
     useEffect(() => {
         const handleKeyUp = (event: { key: string; keyCode: number }) => {
             if (event.key === " " || event.keyCode === 32) {
-                if (isMapSelected) {
+                if (isMapSelected && (selectedLat || selectedLng)) {
                     socket.emit('guess', { gameId: game.id, guessedLocation: { lat: selectedLat, lng: selectedLng } });
                     setGuessed(true);
                 }

@@ -161,6 +161,7 @@ export const nextRound = (io: Server) => {
                 const lobby = lobbies[game.lobbyId];
                 if (game.currentRound < lobby.settings.rounds) {
                     game.currentRound += 1;
+                    game.guessedLocations = {};
                     const { props: { lat, lng }} = await getRandomCoordsFromLists();
                     game.location = { lat, lng };
                     io.to(game.lobbyId).emit('nextRound', game)
