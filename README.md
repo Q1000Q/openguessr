@@ -26,3 +26,6 @@ This is a free and open-source version of the popular game GeoGuessr for self-ho
 6. Run the Docker container: `docker run -d --name openguessr -p 3000:3000 openguessr`
 
 Your instance should be running at port 3000 by default
+
+
+fsdnfsdhiusd
